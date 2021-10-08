@@ -1,0 +1,11 @@
+FROM node:14-alpine AS builder
+
+WORKDIR /home/node/api
+
+COPY --chown=node:node package.json yarn.* ./
+
+RUN yarn
+
+EXPOSE 3333
+
+CMD ["yarn dev:server"]

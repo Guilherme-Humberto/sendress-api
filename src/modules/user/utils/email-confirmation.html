@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <style>
+        .image-template {
+            max-width: 100%;
+        }
+
+        .username-title {
+            font-size: 2rem;
+            color: rgb(75, 63, 145);
+            line-height: 2rem;
+        }
+
+        .email-content {
+            font-size: 1.4rem;
+        }
+
+        .btn-confirm {
+            width: fit-content;
+            padding: 1rem 2rem;
+            color: #fff !important;
+            background: rgb(75, 63, 145);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <img class="image-template"
+        src="https://s3-alpha-sig.figma.com/img/f88c/77a2/a89ae88a9bda3c12dd5feda4813576d8?Expires=1632700800&Signature=h3YeT841s2NRONGO8esIGVLf9TC0eP-tVDxHGSGw5XZHu9eDb0M~h3EFGAOqip5zYo3Y8xlH6bqURaYmRQzwKWeMV56NnhBqbSzMQv0DSPPMe4gPxeuZwYKY61djKRE8GABq-IbMG1px6cSrxqoBoJzmqgO5ZN5b6LBWwBHraA2lIBrlsplzG-GS~VWoaK1wFmi9wTLxFniL2ZZk4xoA7Ejcolm5WWix51LcwvzuevF4z~YaBdAZkiwOfvJkD8Q4AR5Zng2BIr0lx7mdkLdI4xKlAJfurudAZVtzx19Bql2QzXK6l-4f5Ov-0CtdW1IvMbpk3Bov~ajF4jiCXOKXHA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+        alt="image">
+    <h2 class="username-title">Olá {{username}}</h2>
+    <p class="email-content">Estamos muito felizes em te conhecer. Para prosseguirmos com o cadastro, por favor
+        clique no link abaixo para confirmação.<br /><br />Obrigado :)
+    </p>
+    <a class="btn-confirm" href="http://localhost:3333/user/subscription?email={{useremail}}&product={{productId}}&confirmation_token={{token}}">Confirmar cadastro</a>
+</body>
+
+</html>

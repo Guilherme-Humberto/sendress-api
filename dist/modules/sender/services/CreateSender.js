@@ -1,0 +1,77 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const prisma_1 = require("config/prisma");
+const aws_1 = require("@core/aws/aws");
+const sender_1 = require("../validations/sender");
+class CreateSender {
+    async execute({ data, userId }) {
+        var _a;
+        const user = await prisma_1.prisma.user.findMany({
+            where: { id: userId.id, senders: { every: { email: { contains: data.email } } } },
+            select: { senders: true }
+        });
+        if (((_a = user[0]) === null || _a === void 0 ? void 0 : _a.senders.length) >= 1) {
+            throw new Error("Sender alreay exists");
+        }
+        const isValidSender = (0, sender_1.validateSender)(data);
+        if (!isValidSender.status) {
+            return {
+                status: false,
+                message: isValidSender.message
+            };
+        }
+        await aws_1.mailService.verifyEmailIdentity({
+            EmailAddress: data.email,
+        }, (error, _data) => {
+            if (error)
+                return {
+                    message: 'Error to send email verification, please try again',
+                    status: false
+                };
+            return {
+                message: 'You received a email for verification',
+                status: true
+            };
+        }).promise();
+        const createSender = await prisma_1.prisma.sender.create({
+            data: Object.assign(Object.assign({}, data), { userId: userId.id })
+        });
+        // if (!user) throw new Error('User not found')
+        // const createSenders = user.senders.map(async sender => {
+        //     const senderResponse = await prisma.sender.findFirst({
+        //         where: { email: sender.email, userId: userId.id }
+        //     })
+        //     if (senderResponse) {
+        //         return {
+        //             status: false,
+        //             message: `${sender.email} already exists`
+        //         }
+        //     }
+        //     const isValidSender = validateSender(data)
+        //     if (!isValidSender.status) {
+        //         return {
+        //             status: false,
+        //             message: isValidSender.message
+        //         }
+        //     }
+        //     await mailService.verifyEmailAddress({
+        //         EmailAddress: data.email
+        //     }, (error, _data) => {
+        //         if (error) return {
+        //             message: 'Error to send email verification, please try again',
+        //             status: false
+        //         }
+        //         return {
+        //             message: 'You received a email for verification',
+        //             status: true
+        //         }
+        //     }).promise()
+        //     const createSender = await prisma.sender.create({
+        //         data: { ...data, userId: user.id }
+        //     })
+        //     return createSender
+        // })
+        return createSender;
+    }
+}
+exports.default = new CreateSender();

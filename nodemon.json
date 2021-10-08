@@ -1,0 +1,8 @@
+{
+    "verbose": true,
+    "ignore": [],
+    "watch": ["src/**/*.ts"],
+    "execMap": {
+      "ts": "ts-node-dev --inspect --respawn --transpile-only --ignore-watch node_modules -r tsconfig-paths/register"
+    }
+}
