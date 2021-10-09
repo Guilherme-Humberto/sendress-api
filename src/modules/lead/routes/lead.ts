@@ -1,10 +1,10 @@
 
-// TODO: create lead [x]
-// TODO: update lead [x]
-// TODO: listAll lead [x] 
-// TODO: deleteMany lead [x] 
-// TODO: delete by id lead [x] 
-// TODO: import leads [x] 
+// TODO: Criar lead [x]
+// TODO: Atualizar lead [x]
+// TODO: Listar todos os lead [x] 
+// TODO: Deletar leads em massa [x] 
+// TODO: Deletar lead [x] 
+// TODO: Importar leads [x] 
 
 import express, { Request, Response } from 'express'
 import multer from 'multer'
@@ -35,7 +35,7 @@ leadRouter.post('/create', async (req: Request, res: Response) => {
         })
         return res.send(lead)
     } catch ({ message }) {
-        return res.status(400).send({ message, status: false })
+        return res.json({ error: message, status: false })
     }
 })
 
@@ -49,7 +49,7 @@ leadRouter.get('/listAll', async (req, res: Response) => {
 
         return res.send(lead)
     } catch ({ message }) {
-        return res.status(400).send({ message, status: false })
+        return res.json({ error: message, status: false })
     }
 })
 
@@ -64,7 +64,7 @@ leadRouter.delete('/delete/:id', async (req: Request, res: Response) => {
         })
         return res.send(lead)
     } catch ({ message }) {
-        return res.send({ error: message, status: false })
+        return res.json({ error: message, status: false })
     }
 })
 
@@ -77,7 +77,7 @@ leadRouter.delete('/deleteMany', async (req: Request, res: Response) => {
         })
         return res.send(lead)
     } catch ({ message }) {
-        return res.status(400).send({ message, status: false })
+        return res.json({ error: message, status: false })
     }
 })
 
@@ -98,10 +98,7 @@ leadRouter.post('/import', multerConfig.single('file'), async (req, res) => {
         return res.json(importResponse)
 
     } catch ({ message }) {
-        return res.status(400).json({
-            status: false,
-            message
-        })
+        return res.json({ error: message, status: false })
     }
 })
 
@@ -118,7 +115,7 @@ leadRouter.put('/update/:id', async (req: Request, res: Response) => {
         })
         return res.send(lead)
     } catch ({ message }) {
-        return res.status(400).send({ message, status: false })
+        return res.json({ error: message, status: false })
     }
 })
 
