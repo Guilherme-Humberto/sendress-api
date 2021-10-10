@@ -18,16 +18,17 @@ class UpdateCampaign {
 
         if (!campaign) throw new Error("Campaign not found")
 
-        if(data.from || data.to) {
+        if(data.from) {
             const isValidCampaign = validateCampaignEdit(data)
             if (!isValidCampaign.status) throw new Error(isValidCampaign.message)
         }
 
         await prisma.campaign.updateMany({
-            where: { id: params.id, userId: userId.id }, data
+            where: { id: params.id, userId: userId.id, }, 
+            data: { ...data }
         })
 
-        return { status: true }
+        return data
     }
 }
 

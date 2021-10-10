@@ -24,7 +24,7 @@ campaignRouter.post('/create', async (req, res) => {
         return res.send(campaign);
     }
     catch ({ message }) {
-        return res.status(400).send({ message });
+        return res.json({ error: message, status: false });
     }
 });
 campaignRouter.get('/listAll', async (req, res) => {
@@ -36,7 +36,7 @@ campaignRouter.get('/listAll', async (req, res) => {
         return res.send(campaign);
     }
     catch ({ message }) {
-        return res.status(400).send({ message });
+        return res.json({ error: message, status: false });
     }
 });
 campaignRouter.delete('/delete/:id', async (req, res) => {
@@ -50,7 +50,7 @@ campaignRouter.delete('/delete/:id', async (req, res) => {
         return res.send(campaign);
     }
     catch ({ message }) {
-        return res.status(400).send({ message });
+        return res.json({ error: message, status: false });
     }
 });
 campaignRouter.put('/update/:id', async (req, res) => {
@@ -66,6 +66,6 @@ campaignRouter.put('/update/:id', async (req, res) => {
         return res.send(campaign);
     }
     catch ({ message }) {
-        return res.status(400).send({ message });
+        return res.json({ error: message, status: false });
     }
 });

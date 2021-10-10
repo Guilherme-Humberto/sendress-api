@@ -8,7 +8,6 @@ export interface UserPropsOutputType extends Prisma.UserGroupByOutputType { }
 export interface SegmentProps extends Prisma.SegmentCreateManyInput { }
 export interface LeadCreateInput extends Prisma.LeadCreateInput { }
 export interface LeadCreateManyInput extends Prisma.LeadCreateManyInput { }
-export interface EmailTemplateCreateInput extends Prisma.EmailTemplateCreateManyInput { }
 
 export interface LeadOutPut {
     name: string;

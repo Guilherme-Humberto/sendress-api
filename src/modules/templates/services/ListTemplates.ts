@@ -1,29 +1,17 @@
-import { prisma } from "config/prisma"
-
-
-interface Props {
-    userId: { id: number }
-}
-
-const handleListTemplates = async (userId?: number) => {
-    return await prisma.emailTemplate.findMany({
-        where: { userId }
-    })
-}
+import { mailService } from "@core/aws/aws"
+import { SES } from "aws-sdk"
 
 class ListTemplates {
-    async execute({ userId }: Props) {
-        if(userId) {
-            const user = await prisma.user.findUnique({
-                where: { id: userId.id }
-            })
+    async execute() {
+        const { TemplatesMetadata: listTemplates } = await mailService.listTemplates().promise()
 
-            if(!user) throw new Error("User not found")
+        const listTemplatesResponse = listTemplates as SES.TemplateMetadataList
 
-            await handleListTemplates(user.id)
-        }
-
-        return await handleListTemplates()
+        const getTemplates = listTemplatesResponse.map(async template => {
+            return await mailService.getTemplate({ TemplateName: String(template.Name) }).promise()
+        })
+        
+        return await Promise.all(getTemplates)
     }
 }
 

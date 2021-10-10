@@ -11,7 +11,7 @@ const handleCreateCampaign = async ({ data, userId }) => {
     const isValidCampaign = (0, campaign_1.validateCampaignCreate)(data);
     if (!isValidCampaign.status)
         throw new Error(isValidCampaign.message);
-    return await prisma_1.prisma.campaign.create({ data: Object.assign(Object.assign({}, data), { userId: userId.id }) });
+    return await prisma_1.prisma.campaign.create({ data: Object.assign(Object.assign({}, data), { userId: userId.id, segmentId: data.segmentId }) });
 };
 class CreateCampaign {
     async execute({ data, userId }) {

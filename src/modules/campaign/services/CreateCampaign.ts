@@ -15,7 +15,7 @@ const handleCreateCampaign = async ({ data, userId }: Props) => {
 
     if (!isValidCampaign.status) throw new Error(isValidCampaign.message)
 
-    return await prisma.campaign.create({ data: { ...data, userId: userId.id } })
+    return await prisma.campaign.create({ data: { ...data, userId: userId.id, segmentId: Number(data.segmentId) } })
 }
 
 class CreateCampaign {
@@ -34,14 +34,14 @@ class CreateCampaign {
 
         if (user.planMode === 'BASIC') {
             if (user.campaigns.length <= 1 && user.campaigns.length <= 20) {
-                await handleCreateCampaign({ data, userId })
+                return await handleCreateCampaign({ data, userId })
             } else {
                 throw new Error("Your subscription can create up to 20 campaigns")
             }
         }
         if (user.planMode === 'PREMIUM') {
-            if (user.campaigns.length <= 1 && user.campaigns.length <= 50) {
-                await handleCreateCampaign({ data, userId })
+            if (true) {
+                return await handleCreateCampaign({ data, userId })
             } else {
                 throw new Error("Your subscription can create up to 50 campaigns")
             }
