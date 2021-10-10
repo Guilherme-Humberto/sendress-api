@@ -6,9 +6,8 @@ const templateRouter = express.Router()
 
 templateRouter.get('/listAll', async (req: Request, res: Response) => {
     try {
-        const userId = req.headers.userid
 
-        const listTemplates = await ListTemplates.execute({ userId: { id: Number(userId) } })
+        const listTemplates = await ListTemplates.execute()
         return res.json(listTemplates)
     } catch ({ message }) {
         return res.status(400).send({ message })

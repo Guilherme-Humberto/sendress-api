@@ -2,9 +2,8 @@ import * as EmailValidator from 'email-validator';
 import { CampaignOutPut } from "shared";
 
 const validateCampaignCreate = (data: CampaignOutPut) => {
-    const fieldEmpty = !data.name || !data.from || !data.to || !data.subject || !data.content;
-    const fromAndToValidate = EmailValidator.validate(data.from) && EmailValidator.validate(data.to)
-    const checkIfEqualFromAndTo = data.from === data.to
+    const fieldEmpty = !data.name || !data.from || !data.subject || !data.content || !data.segmentId;
+    const fromAndToValidate = EmailValidator.validate(data.from)
     // const subjectLength = data.subject.length < 100
     // const contentLength = data.content.length < 800
 
@@ -18,7 +17,7 @@ const validateCampaignCreate = (data: CampaignOutPut) => {
     if (!fromAndToValidate) {
         return {
             status: false,
-            message: `${data.from} or ${data.to} invalid`
+            message: `${data.from} invalid`
         }
     }
 
@@ -36,37 +35,14 @@ const validateCampaignCreate = (data: CampaignOutPut) => {
     //     }
     // }
 
-    if (checkIfEqualFromAndTo) {
-        return {
-            status: false,
-            message: `Invalid from or to values`
-        }
-    }
-
     return { status: true }
 }
 
 const validateCampaignEdit = (data: CampaignOutPut) => {
-    const checkIfEqualFromAndTo = data.from === data.to
-
     if(data.from && !EmailValidator.validate(data.from)) {
         return {
             status: false,
             message: `from invalid`
-        }
-    }
-
-    if(data.to && !EmailValidator.validate(data.to)) {
-        return {
-            status: false,
-            message: `${data.to} invalid`
-        }
-    }
-
-    if (checkIfEqualFromAndTo) {
-        return {
-            status: false,
-            message: `From and to cannot be the same`
         }
     }
 

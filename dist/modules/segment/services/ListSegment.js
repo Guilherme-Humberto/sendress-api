@@ -5,7 +5,7 @@ class ListSegment {
     async execute({ userId }) {
         return await prisma_1.prisma.segment.findMany({
             where: {
-                userId: 1
+                userId: userId.id
             },
             select: {
                 id: true,

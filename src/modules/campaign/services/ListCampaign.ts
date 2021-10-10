@@ -13,7 +13,11 @@ class ListCampaign {
         if(!user) throw new Error("User not found")
 
         return await prisma.campaign.findMany({
-            where: { userId: userId.id }
+            where: { userId: userId.id },
+            orderBy: [
+                { createdAt: 'desc' },
+                { updatedAt: 'desc' }
+            ]
         })
     }
 }

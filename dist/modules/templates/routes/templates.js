@@ -11,8 +11,7 @@ const templateRouter = express_1.default.Router();
 exports.templateRouter = templateRouter;
 templateRouter.get('/listAll', async (req, res) => {
     try {
-        const userId = req.headers.userid;
-        const listTemplates = await ListTemplates_1.default.execute({ userId: { id: Number(userId) } });
+        const listTemplates = await ListTemplates_1.default.execute();
         return res.json(listTemplates);
     }
     catch ({ message }) {

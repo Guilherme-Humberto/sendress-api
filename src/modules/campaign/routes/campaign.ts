@@ -4,6 +4,7 @@ import CreateCampaign from '../services/CreateCampaign'
 import ListCampaign from '../services/ListCampaign'
 import DeleteCampaign from '../services/DeleteCampaign'
 import UpdateCampaign from '../services/UpdateCampaign'
+import DeleteManyCampaigns from '../services/DeleteManyCampaigns'
 import { authMiddleware } from '@core/http/middlewares/authorization'
 
 const campaignRouter = express.Router()
@@ -22,7 +23,7 @@ campaignRouter.post('/create', async (req: Request, res: Response) => {
         return res.send(campaign)
 
     } catch ({ message }) {
-        return res.status(400).send({ message })
+        return res.json({ error: message, status: false })
     }
 })
 
@@ -36,7 +37,7 @@ campaignRouter.get('/listAll', async (req, res: Response) => {
         return res.send(campaign)
 
     } catch ({ message }) {
-        return res.status(400).send({ message })
+        return res.json({ error: message, status: false })
     }
 })
 
@@ -52,7 +53,7 @@ campaignRouter.delete('/delete/:id', async (req: Request, res: Response) => {
         return res.send(campaign)
 
     } catch ({ message }) {
-        return res.status(400).send({ message })
+        return res.json({ error: message, status: false })
     }
 })
 
@@ -70,7 +71,20 @@ campaignRouter.put('/update/:id', async (req: Request, res: Response) => {
         return res.send(campaign)
 
     } catch ({ message }) {
-        return res.status(400).send({ message })
+        return res.json({ error: message, status: false })
+    }
+})
+
+campaignRouter.delete('/deleteMany', async (req: Request, res: Response) => {
+    try {
+        const userId = req.headers.userid
+
+        const lead = await DeleteManyCampaigns.execute({
+            userId: { id: Number(userId) }
+        })
+        return res.send(lead)
+    } catch ({ message }) {
+        return res.json({ error: message, status: false })
     }
 })
 

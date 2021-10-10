@@ -14,7 +14,7 @@ class UpdateCampaign {
         });
         if (!campaign)
             throw new Error("Campaign not found");
-        if (data.from || data.to) {
+        if (data.from) {
             const isValidCampaign = (0, campaign_1.validateCampaignEdit)(data);
             if (!isValidCampaign.status)
                 throw new Error(isValidCampaign.message);
