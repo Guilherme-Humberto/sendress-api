@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk'
-import awsConfig from '@config/aws'
+import awsConfig from '@config/aws-sqs'
 
 AWS.config.update({ 
     accessKeyId: awsConfig.access_key, 
@@ -7,5 +7,5 @@ AWS.config.update({
     region: awsConfig.region 
 });
 
-const mailService = new AWS.SES({ apiVersion: '2010-12-01' });
-export { mailService }
+const queueService = new AWS.SQS();
+export { queueService }

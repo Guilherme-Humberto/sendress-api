@@ -1,5 +1,5 @@
 import { prisma } from "config/prisma"
-import { mailService } from "@core/aws/aws"
+import { mailService } from "@core/aws/aws-ses"
 
 
 class CreateEmailTemplate {

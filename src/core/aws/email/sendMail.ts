@@ -1,4 +1,4 @@
-import { mailService } from './aws'
+import { mailService } from '../aws-ses'
 
 interface MessageProps {
     to: string
@@ -8,19 +8,19 @@ interface MessageProps {
 }
 
 export default {
-    async handle({ ...data }: Omit<MessageProps, 'lists'>) {
+    async handle({ to, from, subject, content }: MessageProps) {
         return await mailService.sendEmail({
-            Source: `${data.from}`,
+            Source: `${from}`,
             Destination: {
-                ToAddresses: [`${data.to}`]
+                ToAddresses: [`${to}`]
             },
             Message: {
                 Subject: {
-                    Data: `${data.subject}`
+                    Data: `${subject}`
                 },
                 Body: {
                     Text: {
-                        Data: `${data.content}`
+                        Data: `${content}`
                     }
                 }
             },

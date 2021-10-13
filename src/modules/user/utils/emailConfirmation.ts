@@ -1,4 +1,4 @@
-import { mailService } from '@core/aws/aws'
+import { mailService } from '@core/aws/aws-ses'
 import Handlebars from 'handlebars'
 import fs from 'fs'
 import path from 'path'

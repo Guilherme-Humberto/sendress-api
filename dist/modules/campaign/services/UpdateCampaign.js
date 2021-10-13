@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const prisma_1 = require("config/prisma");
-const campaign_1 = require("../validations/campaign");
 class UpdateCampaign {
     async execute({ data, params, userId }) {
         const user = await prisma_1.prisma.user.findUnique({
@@ -14,15 +13,11 @@ class UpdateCampaign {
         });
         if (!campaign)
             throw new Error("Campaign not found");
-        if (data.from) {
-            const isValidCampaign = (0, campaign_1.validateCampaignEdit)(data);
-            if (!isValidCampaign.status)
-                throw new Error(isValidCampaign.message);
-        }
         await prisma_1.prisma.campaign.updateMany({
-            where: { id: params.id, userId: userId.id }, data
+            where: { id: params.id, userId: userId.id, },
+            data: Object.assign({}, data)
         });
-        return { status: true };
+        return data;
     }
 }
 exports.default = new UpdateCampaign();

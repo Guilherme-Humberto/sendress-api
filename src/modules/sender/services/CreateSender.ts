@@ -1,5 +1,5 @@
 import { prisma } from "config/prisma"
-import { mailService } from '@core/aws/aws'
+import { mailService } from '@core/aws/aws-ses'
 import { validateSender } from "../validations/sender"
 import { SenderOutPut } from "shared";
 
@@ -25,20 +25,20 @@ class CreateSender {
             }
         }
 
-        await mailService.verifyEmailIdentity({
-            EmailAddress: data.email,
-        }, (error, _data) => {
-            if (error) return {
-                message: 'Error to send email verification, please try again',
-                status: false
-            }
+        // await mailService.verifyEmailIdentity({
+        //     EmailAddress: data.email,
+        // }, (error, _data) => {
+        //     if (error) return {
+        //         message: 'Error to send email verification, please try again',
+        //         status: false
+        //     }
 
-            return {
-                message: 'You received a email for verification',
-                status: true
-            }
+        //     return {
+        //         message: 'You received a email for verification',
+        //         status: true
+        //     }
 
-        }).promise()
+        // }).promise()
 
         const createSender = await prisma.sender.create({
             data: { ...data, userId: userId.id }

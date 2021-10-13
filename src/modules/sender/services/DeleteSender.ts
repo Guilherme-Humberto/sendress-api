@@ -1,6 +1,6 @@
 import * as EmailValidator from 'email-validator';
 import { prisma } from "config/prisma"
-import { mailService } from '@core/aws/aws'
+import { mailService } from '@core/aws/aws-ses'
 
 interface Request { emails: string[], userId: { email: string } }
 

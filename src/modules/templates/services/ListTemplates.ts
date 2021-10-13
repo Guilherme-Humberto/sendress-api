@@ -1,4 +1,4 @@
-import { mailService } from "@core/aws/aws"
+import { mailService } from "@core/aws/aws-ses"
 import { SES } from "aws-sdk"
 
 class ListTemplates {
