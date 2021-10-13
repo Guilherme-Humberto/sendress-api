@@ -1,5 +1,6 @@
 import { Request } from "express"
 import { Prisma } from "@prisma/client"
+import { SQS } from 'aws-sdk'
 
 export interface CampaignOutPut extends Prisma.CampaignGroupByOutputType { }
 export interface SenderOutPut extends Prisma.SenderGroupByOutputType { }
@@ -20,3 +21,9 @@ export interface LeadOutPut {
 export interface IGetUserAuthInfoRequest extends Request {
   userId: string
 }
+
+export interface SendMessagesProps { params: SQS.SendMessageBatchRequest }
+export interface PurgeQueueProps { params: SQS.PurgeQueueRequest }
+export interface ReceiveMessageProps { params: SQS.ReceiveMessageRequest }
+export interface DeleteMessagesProps { params: SQS.DeleteMessageRequest }
+export interface DeleteMessagesProps { params: SQS.DeleteMessageRequest }

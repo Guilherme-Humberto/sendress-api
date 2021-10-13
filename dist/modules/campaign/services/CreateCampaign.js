@@ -11,7 +11,7 @@ const handleCreateCampaign = async ({ data, userId }) => {
     const isValidCampaign = (0, campaign_1.validateCampaignCreate)(data);
     if (!isValidCampaign.status)
         throw new Error(isValidCampaign.message);
-    return await prisma_1.prisma.campaign.create({ data: Object.assign(Object.assign({}, data), { userId: userId.id, segmentId: data.segmentId }) });
+    return await prisma_1.prisma.campaign.create({ data: Object.assign(Object.assign({}, data), { userId: userId.id, segmentId: Number(data.segmentId) }) });
 };
 class CreateCampaign {
     async execute({ data, userId }) {
@@ -27,15 +27,15 @@ class CreateCampaign {
             throw new Error("User without permission");
         if (user.planMode === 'BASIC') {
             if (user.campaigns.length <= 1 && user.campaigns.length <= 20) {
-                await handleCreateCampaign({ data, userId });
+                return await handleCreateCampaign({ data, userId });
             }
             else {
                 throw new Error("Your subscription can create up to 20 campaigns");
             }
         }
         if (user.planMode === 'PREMIUM') {
-            if (user.campaigns.length <= 1 && user.campaigns.length <= 50) {
-                await handleCreateCampaign({ data, userId });
+            if (true) {
+                return await handleCreateCampaign({ data, userId });
             }
             else {
                 throw new Error("Your subscription can create up to 50 campaigns");

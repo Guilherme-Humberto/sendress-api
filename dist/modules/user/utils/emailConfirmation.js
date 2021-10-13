@@ -15,7 +15,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEmailConfirmation = void 0;
-const aws_1 = require("@core/aws/aws");
+const aws_ses_1 = require("@core/aws/aws-ses");
 const handlebars_1 = __importDefault(require("handlebars"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -34,7 +34,7 @@ const sendEmailConfirmation = async (_a) => {
         };
         var templateHtml = handlebars_1.default.compile(emailHtmlTemplate.toString());
         var bodyHtml = templateHtml(emailData);
-        await aws_1.mailService.sendEmail({
+        await aws_ses_1.mailService.sendEmail({
             Source: `${data.from}`,
             Destination: {
                 ToAddresses: [`${data.to}`]

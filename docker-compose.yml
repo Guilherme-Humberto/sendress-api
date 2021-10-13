@@ -1,12 +1,12 @@
 version: '3.6'
 
 networks:
-  prodbase-mail-network:
+  sendway-api-network:
     driver: bridge
 
 services:
-  prodbase-mail:
-    image: prodbase-mail
+  sendway-api:
+    image: sendway-api
     build:
       context: .
       dockerfile: ./dockerFile
@@ -14,21 +14,21 @@ services:
       - .:/home/node/api
       - ./nodemon.json:/home/node/api/nodemon.json
     depends_on:
-      - prodmail-pg
-      - rabbitmq
+      - sendway-pg
+      - redis
     networks:
-      - prodbase-mail-network
+      - sendway-api-network
     links:
-      - prodmail-pg
-      - rabbitmq
-    container_name: prodbase-mail
+      - sendway-pg
+      - redis
+    container_name: sendway-api
     command: yarn dev:server
     ports:
       - '3333:3333'
 
-  prodmail-pg:
+  sendway-pg:
     image: postgres:latest
-    container_name: prodmail-pg
+    container_name: sendway-pg
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -38,17 +38,14 @@ services:
     volumes:
       - ./pg/:/var/lib/postgresql/data
     networks:
-      - prodbase-mail-network
+      - sendway-api-network
 
-  rabbitmq:
-    image: rabbitmq:management
-    container_name: rabbitmq
-    restart: always
+  redis:
+    image: redis:5.0.5-alpine
+    container_name: sendway-api-redis
     environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+      - DATABASE_REDIS_URL=redis://sendway-api-redis:6379
     ports:
-      - '5672:5672'
-      - '15672:15672'
+      - 6379:6379
     networks:
-      - prodbase-mail-network
+      - sendway-api-network

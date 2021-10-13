@@ -9,6 +9,8 @@ const CreateCampaign_1 = __importDefault(require("../services/CreateCampaign"));
 const ListCampaign_1 = __importDefault(require("../services/ListCampaign"));
 const DeleteCampaign_1 = __importDefault(require("../services/DeleteCampaign"));
 const UpdateCampaign_1 = __importDefault(require("../services/UpdateCampaign"));
+const DeleteManyCampaigns_1 = __importDefault(require("../services/DeleteManyCampaigns"));
+const SendCampaigns_1 = __importDefault(require("../services/SendCampaigns"));
 const authorization_1 = require("@core/http/middlewares/authorization");
 const campaignRouter = express_1.default.Router();
 exports.campaignRouter = campaignRouter;
@@ -64,6 +66,35 @@ campaignRouter.put('/update/:id', async (req, res) => {
             params: { id: Number(campaignParams.id) }
         });
         return res.send(campaign);
+    }
+    catch ({ message }) {
+        return res.json({ error: message, status: false });
+    }
+});
+campaignRouter.delete('/deleteMany', async (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const lead = await DeleteManyCampaigns_1.default.execute({
+            userId: { id: Number(userId) }
+        });
+        return res.send(lead);
+    }
+    catch ({ message }) {
+        return res.json({ error: message, status: false });
+    }
+});
+// Get campaign id
+campaignRouter.post('/send', async (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const campaignid = req.headers.campaignid;
+        const senderid = req.headers.senderid;
+        const lead = await SendCampaigns_1.default.execute({
+            userId: { id: Number(userId) },
+            campaignId: { id: Number(campaignid) },
+            senderId: { id: Number(senderid) }
+        });
+        return res.send(lead);
     }
     catch ({ message }) {
         return res.json({ error: message, status: false });

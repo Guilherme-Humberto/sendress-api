@@ -21,7 +21,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const EmailValidator = __importStar(require("email-validator"));
 const prisma_1 = require("config/prisma");
-const aws_1 = require("@core/aws/aws");
+const aws_ses_1 = require("@core/aws/aws-ses");
 class CreateSender {
     async execute({ emails, userId }) {
         const user = await prisma_1.prisma.user.findUnique({
@@ -50,7 +50,7 @@ class CreateSender {
             await prisma_1.prisma.sender.delete({
                 where: { email }
             });
-            await aws_1.mailService.deleteVerifiedEmailAddress({
+            await aws_ses_1.mailService.deleteVerifiedEmailAddress({
                 EmailAddress: email
             }).promise();
             return { status: true };

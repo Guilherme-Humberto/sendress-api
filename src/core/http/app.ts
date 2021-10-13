@@ -7,6 +7,7 @@ import routes from './api/routes'
 
 const app = express()
 
+
 app.use(express.json());
 app.use(
   cors({
@@ -17,6 +18,6 @@ app.use(
 
 app.use(routes);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 export { app }

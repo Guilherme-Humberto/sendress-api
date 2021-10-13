@@ -5,6 +5,7 @@ import ListCampaign from '../services/ListCampaign'
 import DeleteCampaign from '../services/DeleteCampaign'
 import UpdateCampaign from '../services/UpdateCampaign'
 import DeleteManyCampaigns from '../services/DeleteManyCampaigns'
+import SendCampaigns from '../services/SendCampaigns'
 import { authMiddleware } from '@core/http/middlewares/authorization'
 
 const campaignRouter = express.Router()
@@ -20,6 +21,7 @@ campaignRouter.post('/create', async (req: Request, res: Response) => {
             data: campaignData,
             userId: { id: Number(userId) }
         })
+        
         return res.send(campaign)
 
     } catch ({ message }) {
@@ -81,6 +83,24 @@ campaignRouter.delete('/deleteMany', async (req: Request, res: Response) => {
 
         const lead = await DeleteManyCampaigns.execute({
             userId: { id: Number(userId) }
+        })
+        return res.send(lead)
+    } catch ({ message }) {
+        return res.json({ error: message, status: false })
+    }
+})
+
+// Get campaign id
+campaignRouter.post('/send', async (req: Request, res: Response) => {
+    try {
+        const userId = req.headers.userid
+        const campaignid = req.headers.campaignid
+        const senderid = req.headers.senderid
+
+        const lead = await SendCampaigns.execute({
+            userId: { id: Number(userId) },
+            campaignId: { id: Number(campaignid) },
+            senderId: { id: Number(senderid) }
         })
         return res.send(lead)
     } catch ({ message }) {

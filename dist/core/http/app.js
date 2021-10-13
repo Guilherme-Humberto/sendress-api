@@ -18,4 +18,4 @@ app.use((0, cors_1.default)({
 }));
 app.use(routes_1.default);
 app.use(body_parser_1.default.json());
-app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(body_parser_1.default.urlencoded({ extended: false }));

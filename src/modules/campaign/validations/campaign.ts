@@ -2,8 +2,7 @@ import * as EmailValidator from 'email-validator';
 import { CampaignOutPut } from "shared";
 
 const validateCampaignCreate = (data: CampaignOutPut) => {
-    const fieldEmpty = !data.name || !data.from || !data.subject || !data.content || !data.segmentId;
-    const fromAndToValidate = EmailValidator.validate(data.from)
+    const fieldEmpty = !data.name || !data.senderId || !data.subject || !data.content || !data.segmentId;
     // const subjectLength = data.subject.length < 100
     // const contentLength = data.content.length < 800
 
@@ -11,13 +10,6 @@ const validateCampaignCreate = (data: CampaignOutPut) => {
         return {
             status: false,
             message: "All fields are required"
-        }
-    }
-
-    if (!fromAndToValidate) {
-        return {
-            status: false,
-            message: `${data.from} invalid`
         }
     }
 
@@ -39,12 +31,6 @@ const validateCampaignCreate = (data: CampaignOutPut) => {
 }
 
 const validateCampaignEdit = (data: CampaignOutPut) => {
-    if(data.from && !EmailValidator.validate(data.from)) {
-        return {
-            status: false,
-            message: `from invalid`
-        }
-    }
 
     return { status: true }
 }

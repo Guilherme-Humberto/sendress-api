@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const prisma_1 = require("config/prisma");
-const aws_1 = require("@core/aws/aws");
 const sender_1 = require("../validations/sender");
 class CreateSender {
     async execute({ data, userId }) {
@@ -20,19 +19,18 @@ class CreateSender {
                 message: isValidSender.message
             };
         }
-        await aws_1.mailService.verifyEmailIdentity({
-            EmailAddress: data.email,
-        }, (error, _data) => {
-            if (error)
-                return {
-                    message: 'Error to send email verification, please try again',
-                    status: false
-                };
-            return {
-                message: 'You received a email for verification',
-                status: true
-            };
-        }).promise();
+        // await mailService.verifyEmailIdentity({
+        //     EmailAddress: data.email,
+        // }, (error, _data) => {
+        //     if (error) return {
+        //         message: 'Error to send email verification, please try again',
+        //         status: false
+        //     }
+        //     return {
+        //         message: 'You received a email for verification',
+        //         status: true
+        //     }
+        // }).promise()
         const createSender = await prisma_1.prisma.sender.create({
             data: Object.assign(Object.assign({}, data), { userId: userId.id })
         });
