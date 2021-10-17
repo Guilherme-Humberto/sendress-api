@@ -4,12 +4,14 @@ const prisma_1 = require("config/prisma");
 const sender_1 = require("../validations/sender");
 class CreateSender {
     async execute({ data, userId }) {
-        var _a;
-        const user = await prisma_1.prisma.user.findMany({
+        const user = await prisma_1.prisma.user.findFirst({
             where: { id: userId.id, senders: { every: { email: { contains: data.email } } } },
-            select: { senders: true }
+            select: { senders: true, verified: true, status: true }
         });
-        if (((_a = user[0]) === null || _a === void 0 ? void 0 : _a.senders.length) >= 1) {
+        if (!(user === null || user === void 0 ? void 0 : user.verified) && (user === null || user === void 0 ? void 0 : user.status) === 'DISABLED')
+            throw new Error("User without permission");
+        const userSenders = user === null || user === void 0 ? void 0 : user.senders;
+        if (userSenders.length >= 1) {
             throw new Error("Sender alreay exists");
         }
         const isValidSender = (0, sender_1.validateSender)(data);

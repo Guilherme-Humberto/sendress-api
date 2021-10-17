@@ -20,27 +20,29 @@ const handleCreateCampaign = async ({ data, userId }: Props) => {
 
 class CreateCampaign {
     async execute({ data, userId }: Props) {
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: { id: userId.id },
             select: {
                 campaigns: true,
                 planMode: true,
-                verified: true
+                verified: true,
+                status: true
             }
         })
 
-        if (!user?.verified)
+        if (!user?.verified && user?.status === 'DISABLED')
             throw new Error("User without permission")
 
-        if (user.planMode === 'BASIC') {
+        if (user?.planMode === 'BASIC') {
             if (user.campaigns.length <= 1 && user.campaigns.length <= 20) {
                 return await handleCreateCampaign({ data, userId })
             } else {
                 throw new Error("Your subscription can create up to 20 campaigns")
             }
         }
-        if (user.planMode === 'PREMIUM') {
-            if (true) {
+
+        if (user?.planMode === 'PREMIUM') {
+            if (user.campaigns.length <= 1 && user.campaigns.length <= 50) {
                 return await handleCreateCampaign({ data, userId })
             } else {
                 throw new Error("Your subscription can create up to 50 campaigns")

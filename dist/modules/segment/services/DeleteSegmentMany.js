@@ -5,10 +5,12 @@ class DeleteSegmentMany {
     async execute({ userId }) {
         const user = await prisma_1.prisma.user.findUnique({
             where: { id: userId.id },
-            select: { segments: true }
+            select: { segments: true, verified: true, status: true }
         });
         if (!user)
             throw new Error("User not found");
+        if (!(user === null || user === void 0 ? void 0 : user.verified) && (user === null || user === void 0 ? void 0 : user.status) === 'DISABLED')
+            throw new Error("User without permission");
         const segmentDefault = await prisma_1.prisma.segment.findFirst({
             where: { title: 'Default', userId: userId.id }
         });

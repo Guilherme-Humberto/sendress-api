@@ -7,12 +7,17 @@ interface Request { data: SenderOutPut, userId: { id: number } }
 
 class CreateSender {
     async execute({ data, userId }: Request) {
-        const user = await prisma.user.findMany({
+        const user = await prisma.user.findFirst({
             where: { id: userId.id, senders: { every: { email: { contains: data.email } } } },
-            select: { senders: true }
+            select: { senders: true, verified: true, status: true }
         })
 
-        if (user[0]?.senders.length >= 1) {
+        if (!user?.verified && user?.status === 'DISABLED')
+            throw new Error("User without permission")
+
+        const userSenders = user?.senders as []
+
+        if (userSenders.length >= 1) {
             throw new Error("Sender alreay exists")
         }
 

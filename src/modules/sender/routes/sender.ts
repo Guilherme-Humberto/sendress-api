@@ -24,7 +24,11 @@ senderRouter.post('/create', async (req: Request, res: Response) => {
 
 senderRouter.get('/listAll', async (req: Request, res: Response) => {
     try {
-        const segment = await ListSender.execute()
+        const userId = req.headers.userid
+
+        const segment = await ListSender.execute({
+            userId: { id: Number(userId) }
+        })
         return res.send(segment)
     } catch ({ message }) {
         return res.status(400).send({ message })

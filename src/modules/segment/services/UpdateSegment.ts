@@ -13,13 +13,16 @@ class UpdateSegment {
             where: { id: userId.id }
         })
 
-        if(!user) throw new Error("User not found")
+        if (!user) throw new Error("User not found")
+
+        if (!user?.verified && user?.status === 'DISABLED')
+            throw new Error("User without permission")
 
         const segmentDefault = await prisma.segment.findFirst({
             where: { title: 'Default', userId: userId.id }
         })
 
-        if(segmentDefault?.id === params.id) throw new Error("This segment cannot be updated.")
+        if (segmentDefault?.id === params.id) throw new Error("This segment cannot be updated.")
 
         await prisma.segment.updateMany({
             where: { id: params.id, userId: userId.id }, data

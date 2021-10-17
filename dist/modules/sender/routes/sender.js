@@ -27,7 +27,10 @@ senderRouter.post('/create', async (req, res) => {
 });
 senderRouter.get('/listAll', async (req, res) => {
     try {
-        const segment = await ListSender_1.default.execute();
+        const userId = req.headers.userid;
+        const segment = await ListSender_1.default.execute({
+            userId: { id: Number(userId) }
+        });
         return res.send(segment);
     }
     catch ({ message }) {

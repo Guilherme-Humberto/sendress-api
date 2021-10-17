@@ -50,6 +50,13 @@ const handleLeadsAlredyExists = async (leads, userId) => {
 class ImportLead {
     async execute({ file, userId, typeModel }) {
         var e_1, _a, e_2, _b;
+        const user = await prisma_1.prisma.user.findUnique({
+            where: { id: userId.id }
+        });
+        if (!user)
+            throw new Error("User not found");
+        if (!(user === null || user === void 0 ? void 0 : user.verified) && (user === null || user === void 0 ? void 0 : user.status) === 'DISABLED')
+            throw new Error("User without permission");
         const isValidFile = (0, validateCSV_1.validationCsvFile)(file);
         if (isValidFile.ok && typeModel === 'cold-emails') {
             const readableFile = new stream_1.Readable();

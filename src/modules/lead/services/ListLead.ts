@@ -10,11 +10,14 @@ class ListLead {
             where: { id: userId.id }
         })
 
-        if(!user) throw new Error("User not found")
+        if (!user) throw new Error("User not found")
+
+        if (!user?.verified && user?.status === 'DISABLED')
+            throw new Error("User without permission")
 
         return await prisma.lead.findMany({
             where: { userId: userId.id },
-            select: { 
+            select: {
                 id: true,
                 phone: true,
                 name: true,

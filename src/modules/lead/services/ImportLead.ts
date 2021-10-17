@@ -57,6 +57,15 @@ const handleLeadsAlredyExists = async (leads: any[], userId: number) => {
 
 class ImportLead {
     async execute({ file, userId, typeModel }: Props) {
+        const user = await prisma.user.findUnique({
+            where: { id: userId.id }
+        })
+
+        if (!user) throw new Error("User not found");
+
+        if (!user?.verified && user?.status === 'DISABLED')
+            throw new Error("User without permission")
+
         const isValidFile = validationCsvFile(file as Express.Multer.File)
 
         if (isValidFile.ok && typeModel === 'cold-emails') {

@@ -9,24 +9,6 @@ exports.Queue = {
             Entries: [
                 {
                     Id: data.Id,
-                    MessageAttributes: {
-                        "MsgId": {
-                            DataType: 'String',
-                            StringValue: data.MessageAttributes.MsgId.StringValue
-                        },
-                        "To": {
-                            DataType: 'String',
-                            StringValue: data.MessageAttributes.To.StringValue
-                        },
-                        "From": {
-                            DataType: 'String',
-                            StringValue: data.MessageAttributes.To.StringValue
-                        },
-                        "Subject": {
-                            DataType: 'String',
-                            StringValue: data.MessageAttributes.Subject.StringValue
-                        }
-                    },
                     MessageBody: data.MessageBody,
                     DelaySeconds: data.DelaySeconds,
                     MessageGroupId: data.MessageGroupId,

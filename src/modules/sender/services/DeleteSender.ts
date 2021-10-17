@@ -8,10 +8,14 @@ class CreateSender {
     async execute({ emails, userId }: Request) {
         const user = await prisma.user.findUnique({
             where: { email: userId.email },
-            select: { senders: true, id: true }
+            select: { senders: true, id: true, verified: true, status: true }
         })
 
         if (!user) throw new Error('User not found')
+
+        if (!user?.verified && user?.status === 'DISABLED')
+            throw new Error("User without permission")
+
 
         const deleteEmails = emails.map(async email => {
             const sender = await prisma.sender.findUnique({

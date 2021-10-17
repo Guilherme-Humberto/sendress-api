@@ -1,3 +1,9 @@
+
+// TODO: Criar campanha [x]
+// TODO: Atualizar campanha [x]
+// TODO: Listar todos as campanha [x]
+// TODO: Deletar campanha [x]
+
 import express, { Request, Response } from 'express'
 import { CampaignOutPut } from 'shared'
 import CreateCampaign from '../services/CreateCampaign'
@@ -21,7 +27,7 @@ campaignRouter.post('/create', async (req: Request, res: Response) => {
             data: campaignData,
             userId: { id: Number(userId) }
         })
-        
+
         return res.send(campaign)
 
     } catch ({ message }) {
