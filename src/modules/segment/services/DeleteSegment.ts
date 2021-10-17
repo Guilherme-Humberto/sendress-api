@@ -13,6 +13,9 @@ class DeleteSegment {
 
         if (!user) throw new Error("User not found")
 
+        if (!user?.verified && user?.status === 'DISABLED')
+            throw new Error("User without permission")
+
         const segmentDefault = await prisma.segment.findFirst({
             where: { title: 'Default', userId: userId.id }
         })

@@ -15,17 +15,18 @@ const handleCreateCampaign = async ({ data, userId }) => {
 };
 class CreateCampaign {
     async execute({ data, userId }) {
-        const user = await prisma_1.prisma.user.findUnique({
+        const user = await prisma_1.prisma.user.findFirst({
             where: { id: userId.id },
             select: {
                 campaigns: true,
                 planMode: true,
-                verified: true
+                verified: true,
+                status: true
             }
         });
-        if (!(user === null || user === void 0 ? void 0 : user.verified))
+        if (!(user === null || user === void 0 ? void 0 : user.verified) && (user === null || user === void 0 ? void 0 : user.status) === 'DISABLED')
             throw new Error("User without permission");
-        if (user.planMode === 'BASIC') {
+        if ((user === null || user === void 0 ? void 0 : user.planMode) === 'BASIC') {
             if (user.campaigns.length <= 1 && user.campaigns.length <= 20) {
                 return await handleCreateCampaign({ data, userId });
             }
@@ -33,8 +34,8 @@ class CreateCampaign {
                 throw new Error("Your subscription can create up to 20 campaigns");
             }
         }
-        if (user.planMode === 'PREMIUM') {
-            if (true) {
+        if ((user === null || user === void 0 ? void 0 : user.planMode) === 'PREMIUM') {
+            if (user.campaigns.length <= 1 && user.campaigns.length <= 50) {
                 return await handleCreateCampaign({ data, userId });
             }
             else {

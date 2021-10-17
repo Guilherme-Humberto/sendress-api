@@ -9,13 +9,14 @@ export interface UserPropsOutputType extends Prisma.UserGroupByOutputType { }
 export interface SegmentProps extends Prisma.SegmentCreateManyInput { }
 export interface LeadCreateInput extends Prisma.LeadCreateInput { }
 export interface LeadCreateManyInput extends Prisma.LeadCreateManyInput { }
+export interface ScheduleCreateManyInput extends Prisma.ScheduleCreateManyInput { }
 
 export interface LeadOutPut {
-    name: string;
-    email: string;
-    phone: string;
-    business: string;
-    segmentId: string | number;
+  name: string;
+  email: string;
+  phone: string;
+  business: string;
+  segmentId: string | number;
 }
 
 export interface IGetUserAuthInfoRequest extends Request {

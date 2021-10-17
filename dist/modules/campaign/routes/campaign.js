@@ -1,4 +1,8 @@
 "use strict";
+// TODO: Criar campanha [x]
+// TODO: Atualizar campanha [x]
+// TODO: Listar todos as campanha [x]
+// TODO: Deletar campanha [x]
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };

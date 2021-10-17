@@ -8,6 +8,7 @@ require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const helmet_1 = __importDefault(require("helmet"));
 const routes_1 = __importDefault(require("./api/routes"));
 const app = (0, express_1.default)();
 exports.app = app;
@@ -17,5 +18,6 @@ app.use((0, cors_1.default)({
     exposedHeaders: ['X-Total-Count', 'X-Total-Page'],
 }));
 app.use(routes_1.default);
+app.use((0, helmet_1.default)());
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));

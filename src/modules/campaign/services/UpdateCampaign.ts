@@ -10,7 +10,10 @@ class UpdateCampaign {
             where: { id: userId.id }
         })
 
-        if(!user) throw new Error("User not found")
+        if (!user) throw new Error("User not found")
+
+        if (!user?.verified && user?.status === 'DISABLED')
+            throw new Error("User without permission")
 
         const campaign = await prisma.campaign.findUnique({
             where: { id: params.id }
@@ -19,7 +22,7 @@ class UpdateCampaign {
         if (!campaign) throw new Error("Campaign not found")
 
         await prisma.campaign.updateMany({
-            where: { id: params.id, userId: userId.id, }, 
+            where: { id: params.id, userId: userId.id, },
             data: { ...data }
         })
 

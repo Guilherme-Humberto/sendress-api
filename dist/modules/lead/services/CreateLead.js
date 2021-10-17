@@ -9,6 +9,8 @@ class CreateLead {
         });
         if (!user)
             throw new Error("User not found");
+        if (!(user === null || user === void 0 ? void 0 : user.verified) && (user === null || user === void 0 ? void 0 : user.status) === 'DISABLED')
+            throw new Error("User without permission");
         const lead = await prisma_1.prisma.lead.findUnique({
             where: { email: data.email }
         });
