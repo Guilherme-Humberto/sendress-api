@@ -1,9 +1,9 @@
 import { prisma } from "config/prisma"
-import { LeadCreateInput } from "shared"
+import { ContactCreateInput } from "shared"
 
-interface Props { data: LeadCreateInput; params: { id: number }; userId: { id: number } }
+interface Props { data: ContactCreateInput; params: { id: number }; userId: { id: number } }
 
-class UpdateLead {
+class UpdateContact {
     async execute({ data, params, userId }: Props) {
         const user = await prisma.user.findUnique({
             where: { id: userId.id }
@@ -14,18 +14,18 @@ class UpdateLead {
         if (!user?.verified && user?.status === 'DISABLED')
             throw new Error("User without permission")
 
-        const lead = await prisma.lead.findUnique({
+        const contact = await prisma.contact.findUnique({
             where: { id: params.id }
         })
 
-        if (!lead) throw new Error("Lead not found")
+        if (!contact) throw new Error("Contact not found")
 
-        const leadUpdate = await prisma.lead.updateMany({
+        const contactUpdate = await prisma.contact.updateMany({
             where: { id: params.id, userId: userId.id }, data
         })
 
-        return leadUpdate
+        return contactUpdate
     }
 }
 
-export default new UpdateLead()
+export default new UpdateContact()

@@ -1,10 +1,10 @@
 import { prisma } from "config/prisma"
-import { LeadCreateManyInput } from "shared"
-import { validateLead } from "../validations/lead"
+import { ContactCreateManyInput } from "shared"
+import { validateContact } from "../validations/contact"
 
-interface Props { data: LeadCreateManyInput, userId: { id: number } }
+interface Props { data: ContactCreateManyInput, userId: { id: number } }
 
-class CreateLead {
+class CreateContact {
     async execute({ data, userId }: Props) {
         const user = await prisma.user.findUnique({
             where: { id: userId.id }
@@ -15,23 +15,23 @@ class CreateLead {
         if (!user?.verified && user?.status === 'DISABLED')
             throw new Error("User without permission")
 
-        const lead = await prisma.lead.findUnique({
+        const contact = await prisma.contact.findUnique({
             where: { email: data.email }
         })
 
-        if (lead) throw new Error("Lead already exists")
+        if (contact) throw new Error("Contact already exists")
 
-        const isValidLead = validateLead(data)
+        const isValidContact = validateContact(data)
 
-        if (!isValidLead.status) throw new Error(isValidLead.message)
+        if (!isValidContact.status) throw new Error(isValidContact.message)
 
         const segmentDefault = await prisma.segment.findUnique({
             where: { title: 'Default' }
         })
 
         const segmentId = data.segmentId ? data.segmentId : segmentDefault?.id
-        return await prisma.lead.create({ data: { ...data, segmentId, userId: userId.id } })
+        return await prisma.contact.create({ data: { ...data, segmentId, userId: userId.id } })
     }
 }
 
-export default new CreateLead()
+export default new CreateContact()

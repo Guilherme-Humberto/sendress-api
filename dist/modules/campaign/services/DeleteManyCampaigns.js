@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const prisma_1 = require("config/prisma");
-class DeleteManyLead {
+class DeleteManyCampaign {
     async execute({ userId }) {
         const user = await prisma_1.prisma.user.findUnique({
             where: { id: userId.id },
@@ -21,4 +21,4 @@ class DeleteManyLead {
         return await Promise.all(deleteCampaigns);
     }
 }
-exports.default = new DeleteManyLead();
+exports.default = new DeleteManyCampaign();

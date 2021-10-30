@@ -15,12 +15,10 @@ services:
       - ./nodemon.json:/home/node/api/nodemon.json
     depends_on:
       - sendway-pg
-      - redis
     networks:
       - sendway-api-network
     links:
       - sendway-pg
-      - redis
     container_name: sendway-api
     command: yarn dev:server
     ports:
@@ -37,15 +35,5 @@ services:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - ./pg/:/var/lib/postgresql/data
-    networks:
-      - sendway-api-network
-
-  redis:
-    image: redis:5.0.5-alpine
-    container_name: sendway-api-redis
-    environment:
-      - DATABASE_REDIS_URL=redis://sendway-api-redis:6379
-    ports:
-      - 6379:6379
     networks:
       - sendway-api-network

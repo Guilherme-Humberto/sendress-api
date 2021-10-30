@@ -18,7 +18,7 @@ class ListSegment {
                 id: true,
                 title: true,
                 status: true,
-                leads: true,
+                contacts: true,
                 createdAt: true
             },
             orderBy: [

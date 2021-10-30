@@ -24,7 +24,7 @@ class DeleteSegmentMany {
         const deleteSegments = user.segments.map(async segment => {
             if (segment.id !== segmentDefault!.id) {
 
-                await prisma.lead.updateMany({
+                await prisma.contact.updateMany({
                     where: { userId: userId.id, segmentId: segment.id },
                     data: { segmentId: segmentDefault?.id }
                 })

@@ -78,10 +78,10 @@ campaignRouter.put('/update/:id', async (req, res) => {
 campaignRouter.delete('/deleteMany', async (req, res) => {
     try {
         const userId = req.headers.userid;
-        const lead = await DeleteManyCampaigns_1.default.execute({
+        const contact = await DeleteManyCampaigns_1.default.execute({
             userId: { id: Number(userId) }
         });
-        return res.send(lead);
+        return res.send(contact);
     }
     catch ({ message }) {
         return res.json({ error: message, status: false });
@@ -93,12 +93,12 @@ campaignRouter.post('/send', async (req, res) => {
         const userId = req.headers.userid;
         const campaignid = req.headers.campaignid;
         const senderid = req.headers.senderid;
-        const lead = await SendCampaigns_1.default.execute({
+        const contact = await SendCampaigns_1.default.execute({
             userId: { id: Number(userId) },
             campaignId: { id: Number(campaignid) },
             senderId: { id: Number(senderid) }
         });
-        return res.send(lead);
+        return res.send(contact);
     }
     catch ({ message }) {
         return res.json({ error: message, status: false });

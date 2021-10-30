@@ -4,7 +4,7 @@ interface Props {
     userId: { id: number }
 }
 
-class ListLead {
+class ListContacts {
     async execute({ userId }: Props) {
         const user = await prisma.user.findUnique({
             where: { id: userId.id }
@@ -15,7 +15,7 @@ class ListLead {
         if (!user?.verified && user?.status === 'DISABLED')
             throw new Error("User without permission")
 
-        return await prisma.lead.findMany({
+        return await prisma.contact.findMany({
             where: { userId: userId.id },
             select: {
                 id: true,
@@ -35,4 +35,4 @@ class ListLead {
     }
 }
 
-export default new ListLead()
+export default new ListContacts()

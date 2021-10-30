@@ -87,10 +87,10 @@ campaignRouter.delete('/deleteMany', async (req: Request, res: Response) => {
     try {
         const userId = req.headers.userid
 
-        const lead = await DeleteManyCampaigns.execute({
+        const contact = await DeleteManyCampaigns.execute({
             userId: { id: Number(userId) }
         })
-        return res.send(lead)
+        return res.send(contact)
     } catch ({ message }) {
         return res.json({ error: message, status: false })
     }
@@ -103,12 +103,12 @@ campaignRouter.post('/send', async (req: Request, res: Response) => {
         const campaignid = req.headers.campaignid
         const senderid = req.headers.senderid
 
-        const lead = await SendCampaigns.execute({
+        const contact = await SendCampaigns.execute({
             userId: { id: Number(userId) },
             campaignId: { id: Number(campaignid) },
             senderId: { id: Number(senderid) }
         })
-        return res.send(lead)
+        return res.send(contact)
     } catch ({ message }) {
         return res.json({ error: message, status: false })
     }
