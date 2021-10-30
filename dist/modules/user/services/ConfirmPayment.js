@@ -26,6 +26,9 @@ class ConfirmPayment {
                 customerId: String(userStripe[0].id)
             }
         });
+        await prisma_1.prisma.segment.create({
+            data: { title: 'Default', userId: user.id }
+        });
         return sessionId;
     }
 }

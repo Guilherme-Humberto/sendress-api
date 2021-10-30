@@ -7,11 +7,12 @@ export interface SenderOutPut extends Prisma.SenderGroupByOutputType { }
 export interface UserProps extends Prisma.UserCreateInput { }
 export interface UserPropsOutputType extends Prisma.UserGroupByOutputType { }
 export interface SegmentProps extends Prisma.SegmentCreateManyInput { }
-export interface LeadCreateInput extends Prisma.LeadCreateInput { }
-export interface LeadCreateManyInput extends Prisma.LeadCreateManyInput { }
-export interface ScheduleCreateManyInput extends Prisma.ScheduleCreateManyInput { }
+export interface ContactCreateInput extends Prisma.ContactCreateInput { }
+export interface ContactCreateManyInput extends Prisma.ContactCreateManyInput { }
+export interface ScheduleCreateManyInput extends Prisma.ScheduleCreateManyUserInput { }
+export interface TemplateCreateManyInput extends Prisma.TemplateCreateManyUserInput { }
 
-export interface LeadOutPut {
+export interface ContactOutPut {
   name: string;
   email: string;
   phone: string;

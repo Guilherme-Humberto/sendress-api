@@ -2,7 +2,7 @@ import { prisma } from "config/prisma"
 
 interface Props { params: { id: number }, userId: { id: number } }
 
-class DeleteLead {
+class DeleteContact {
     async execute({ params, userId }: Props) {
         const user = await prisma.user.findUnique({
             where: { id: userId.id }
@@ -13,13 +13,13 @@ class DeleteLead {
         if (!user?.verified && user?.status === 'DISABLED')
             throw new Error("User without permission")
 
-        const lead = await prisma.lead.findFirst({
+        const contact = await prisma.contact.findFirst({
             where: { id: params.id, userId: userId.id }
         })
 
-        if (!lead) throw new Error("Lead not found")
+        if (!contact) throw new Error("Contact not found")
 
-        await prisma.lead.deleteMany({
+        await prisma.contact.deleteMany({
             where: { id: params.id, userId: userId.id }
         })
 
@@ -27,4 +27,4 @@ class DeleteLead {
     }
 }
 
-export default new DeleteLead()
+export default new DeleteContact()

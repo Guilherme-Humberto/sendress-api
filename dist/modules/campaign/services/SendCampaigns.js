@@ -26,15 +26,15 @@ class SendCampaigns {
             where: {
                 id: Number(campaign === null || campaign === void 0 ? void 0 : campaign.segmentId), userId: user.id
             },
-            select: { leads: { where: { status: 'ACTIVE' } } }
+            select: { contacts: { where: { status: 'ACTIVE' } } }
         });
         if (!segment)
             throw new Error("Segment not found");
-        const segmentsLeads = segment === null || segment === void 0 ? void 0 : segment.leads;
-        return await Promise.all(segmentsLeads.map(async (lead) => {
+        const segmentsContacts = segment === null || segment === void 0 ? void 0 : segment.contacts;
+        return await Promise.all(segmentsContacts.map(async (contact) => {
             const messageBodyObj = {
-                MsgId: { StringValue: String(`msgid${lead.id}`) },
-                To: { StringValue: String(lead.email) },
+                MsgId: { StringValue: String(`msgid${contact.id}`) },
+                To: { StringValue: String(contact.email) },
                 From: { StringValue: String(sender.email) },
                 Subject: { StringValue: String(campaign.subject) },
                 content: String(campaign.content)
@@ -43,8 +43,8 @@ class SendCampaigns {
                 Id: (0, uuidv4_1.uuid)(),
                 MessageBody: JSON.stringify(messageBodyObj),
                 DelaySeconds: 0,
-                MessageGroupId: `GroupId_${(0, uuidv4_1.uuid)()}-${lead.id}`,
-                MessageDeduplicationId: `DuplicatId_${(0, uuidv4_1.uuid)()}-${lead.id}`
+                MessageGroupId: `GroupId_${(0, uuidv4_1.uuid)()}-${contact.id}`,
+                MessageDeduplicationId: `DuplicatId_${(0, uuidv4_1.uuid)()}-${contact.id}`
             };
             return await queueFunctions_1.Queue.sendToQueue({ data: Object.assign({}, params) });
         }));

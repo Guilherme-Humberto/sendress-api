@@ -1,6 +1,6 @@
 import { uuid } from 'uuidv4';
 import { prisma } from "config/prisma"
-import { Lead } from ".prisma/client"
+import { Contact } from ".prisma/client"
 import { Queue } from "@core/aws/queue/queueFunctions"
 
 interface Props {
@@ -36,18 +36,18 @@ class SendCampaigns {
             where: {
                 id: Number(campaign?.segmentId), userId: user.id
             },
-            select: { leads: { where: { status: 'ACTIVE' } } }
+            select: { contacts: { where: { status: 'ACTIVE' } } }
         })
 
         if (!segment) throw new Error("Segment not found")
 
-        const segmentsLeads = segment?.leads as Lead[]
+        const segmentsContacts = segment?.contacts as Contact[]
 
         return await Promise.all(
-            segmentsLeads.map(async lead => {
+            segmentsContacts.map(async contact => {
                 const messageBodyObj = {
-                    MsgId: { StringValue: String(`msgid${lead.id}`) },
-                    To: { StringValue: String(lead.email) },
+                    MsgId: { StringValue: String(`msgid${contact.id}`) },
+                    To: { StringValue: String(contact.email) },
                     From: { StringValue: String(sender.email) },
                     Subject: { StringValue: String(campaign.subject) },
                     content: String(campaign.content)
@@ -57,8 +57,8 @@ class SendCampaigns {
                     Id: uuid(),
                     MessageBody: JSON.stringify(messageBodyObj),
                     DelaySeconds: 0,
-                    MessageGroupId: `GroupId_${uuid()}-${lead.id}`,
-                    MessageDeduplicationId: `DuplicatId_${uuid()}-${lead.id}`
+                    MessageGroupId: `GroupId_${uuid()}-${contact.id}`,
+                    MessageDeduplicationId: `DuplicatId_${uuid()}-${contact.id}`
                 };
 
                 return await Queue.sendToQueue({ data: { ...params } })

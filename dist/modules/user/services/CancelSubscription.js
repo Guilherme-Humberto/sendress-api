@@ -17,7 +17,7 @@ class CancelSubscription {
             customer: customer.id
         });
         await stripe.subscriptions.del(subscription.data[0].id);
-        await prisma_1.prisma.lead.deleteMany({ where: { userId: user.id } });
+        await prisma_1.prisma.contact.deleteMany({ where: { userId: user.id } });
         await prisma_1.prisma.segment.deleteMany({ where: { userId: user.id } });
         await prisma_1.prisma.campaign.deleteMany({ where: { userId: user.id } });
         await prisma_1.prisma.sender.deleteMany({ where: { userId: user.id } });

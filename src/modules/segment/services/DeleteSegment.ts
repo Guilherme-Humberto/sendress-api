@@ -22,13 +22,13 @@ class DeleteSegment {
 
         if (segmentDefault?.id === params.id) throw new Error("This segment cannot be deleted.")
 
-        const leads = await prisma.lead.findMany({
+        const contacts = await prisma.contact.findMany({
             where: { userId: userId.id, segmentId: params.id }
         })
 
-        leads.forEach(async lead => {
-            return await prisma.lead.update({
-                where: { id: lead.id },
+        contacts.forEach(async contact => {
+            return await prisma.contact.update({
+                where: { id: contact.id },
                 data: { segmentId: Number(segmentDefault?.id) }
             })
         })

@@ -18,7 +18,7 @@ class ListSchedule {
             throw new Error("User without permission")
 
         return await prisma.schedule.findMany({
-            where: { userId: userId.id }
+            where: { userId: userId.id },
         })
     }
 }

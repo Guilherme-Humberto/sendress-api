@@ -33,6 +33,10 @@ class ConfirmPayment {
             }
         })
 
+        await prisma.segment.create({
+            data: { title: 'Default', userId: user.id }
+        })
+
         return sessionId
     }
 }

@@ -2,7 +2,7 @@ import { prisma } from "config/prisma"
 
 interface Props { userId: { id: number } }
 
-class DeleteManyLead {
+class DeleteManyCampaign {
     async execute({ userId }: Props) {
         const user = await prisma.user.findUnique({
             where: { id: userId.id },
@@ -26,4 +26,4 @@ class DeleteManyLead {
     }
 }
 
-export default new DeleteManyLead()
+export default new DeleteManyCampaign()

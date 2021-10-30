@@ -18,14 +18,14 @@ class CancelSubscription {
         const stripe = Stripe()
 
         const customer = await stripe.customers.retrieve(String(user.customerId))
-        
+
         const subscription = await stripe.subscriptions.list({
             customer: customer.id
         })
 
         await stripe.subscriptions.del(subscription.data[0].id);
 
-        await prisma.lead.deleteMany({ where: { userId: user.id } })
+        await prisma.contact.deleteMany({ where: { userId: user.id } })
         await prisma.segment.deleteMany({ where: { userId: user.id } })
         await prisma.campaign.deleteMany({ where: { userId: user.id } })
         await prisma.sender.deleteMany({ where: { userId: user.id } })

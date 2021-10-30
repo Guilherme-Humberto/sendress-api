@@ -19,9 +19,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateLead = void 0;
+exports.validateContact = void 0;
 const EmailValidator = __importStar(require("email-validator"));
-const validateLead = (data) => {
+const validateContact = (data) => {
     const fieldEmpty = !data.email;
     const isValidEmail = EmailValidator.validate(data.email);
     if (fieldEmpty) {
@@ -38,4 +38,4 @@ const validateLead = (data) => {
     }
     return { status: true };
 };
-exports.validateLead = validateLead;
+exports.validateContact = validateContact;

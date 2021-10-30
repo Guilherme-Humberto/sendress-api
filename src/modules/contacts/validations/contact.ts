@@ -1,7 +1,7 @@
 import * as EmailValidator from 'email-validator';
-import { LeadCreateInput } from "shared";
+import { ContactCreateInput } from "shared";
 
-const validateLead = (data: LeadCreateInput) => {
+const validateContact = (data: ContactCreateInput) => {
     const fieldEmpty = !data.email
     const isValidEmail = EmailValidator.validate(data.email)
 
@@ -22,4 +22,4 @@ const validateLead = (data: LeadCreateInput) => {
     return { status: true }
 }
 
-export { validateLead }
+export { validateContact }

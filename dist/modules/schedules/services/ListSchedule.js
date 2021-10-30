@@ -15,7 +15,7 @@ class ListSchedule {
         if (!(user === null || user === void 0 ? void 0 : user.verified) && (user === null || user === void 0 ? void 0 : user.status) === 'DISABLED')
             throw new Error("User without permission");
         return await prisma_1.prisma.schedule.findMany({
-            where: { userId: userId.id }
+            where: { userId: userId.id },
         });
     }
 }

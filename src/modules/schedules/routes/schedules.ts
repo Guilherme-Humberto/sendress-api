@@ -51,7 +51,7 @@ scheduleRouter.put('/update/:id', async (req: Request, res: Response) => {
     try {
         const scheduleData = req.body
         const userId = req.headers.userid
-        const scheduleId = req.headers.scheduleid
+        const scheduleId = req.params.id
 
         const schedule = await UpdateSchedule.execute({
             data: scheduleData,
@@ -69,7 +69,7 @@ scheduleRouter.put('/update/:id', async (req: Request, res: Response) => {
 scheduleRouter.delete('/delete/:id', async (req: Request, res: Response) => {
     try {
         const userId = req.headers.userid
-        const scheduleId = req.headers.scheduleid
+        const scheduleId = req.params.id
 
         const schedule = await DeleteSchedule.execute({
             userId: { id: Number(userId) },
@@ -82,3 +82,5 @@ scheduleRouter.delete('/delete/:id', async (req: Request, res: Response) => {
         return res.json({ error: message, status: false })
     }
 })
+
+export { scheduleRouter }
